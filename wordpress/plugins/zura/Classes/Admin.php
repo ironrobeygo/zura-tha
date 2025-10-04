@@ -4,11 +4,15 @@ if (!defined('ABSPATH')) {
 	exit;
 }
 
+require_once PLUGIN_PATH . 'Services/Sync.php';
+
 final class Admin{
 
+    private $sync;
     public function register()
     {
         add_action('admin_menu', [$this, 'admin_menu']);
+        $this->sync = new Sync();
     }
 
     public function admin_menu()
@@ -93,10 +97,16 @@ final class Admin{
             return;
         }
 
-        if(isset($_POST['submit']))
+        if(isset($_POST['submit']) && $_POST['submit'] == 'Save')
         {
             update_option('zura_user_id', sanitize_text_field($_POST['zura_user_id']));
-            echo '<div class="notice notice-success"><p>User products has been synced!</p></div>';
+            echo '<div class="notice notice-success"><p>User ID has been saved!</p></div>';
+        }
+
+        if(isset($_POST['submit']) && $_POST['submit'] == 'Sync')
+        {
+            $this->sync->initiate();
+            echo '<div class="notice notice-success"><p>User Products Synced!</p></div>';
         }
 
         $zura_user_id        = get_option('zura_user_id', '');
@@ -108,11 +118,12 @@ final class Admin{
                     <tr>
                         <th class="row">User ID:</th>
                         <td>
-                            <input type="url" name="zura_user_id" class="regular-text" value="<?php echo esc_attr($zura_user_id); ?>"/>
+                            <input type="text" name="zura_user_id" class="regular-text" value="<?php echo esc_attr($zura_user_id); ?>"/>
                             <p class="description">Enter the User ID of the user you want to sync products of.</p>
                         </td>
                     </tr>
                 </table>
+                <?php submit_button('Save'); ?>
                 <?php submit_button('Sync'); ?>
             </form>
         </div>

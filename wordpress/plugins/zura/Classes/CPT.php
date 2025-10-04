@@ -17,14 +17,39 @@ final class CPT{
             array(
                 'labels' => array(
                     'name' => __('User Products', 'textdomain'),
-                    'singlular_name' => __('User Product', 'textdomain'),
-                    'add_new_item' => __('Add New User Product', 'textdomain')
+                    // 'singlular_name' => __('User Product', 'textdomain'),
+                    // 'add_new_item' => __('Add New User Product', 'textdomain')
                 ),
                 'public' => true,
                 'has_archive' => true,
-                'rewrite' => array('slug' => 'user_products')
+                'show_in_rest' => true,
+                'supports' => ['title', 'editor', 'thumbnail', 'custom-fields'],
+                'rewrite' => array('slug' => 'user-products'),
+
             )
         );
+
+        // meta we’ll upsert
+        $metas = [
+            'external_id'   => 'string',
+            'sku'           => 'string',
+            'price'         => 'number',
+            'discount'      => 'number',
+            'price_final'   => 'number',
+            'currency'      => 'string',
+            'stock'         => 'integer',
+            'categories'    => 'array',
+            'updated_at'    => 'string',
+        ];
+        foreach ($metas as $key => $type) {
+            register_post_meta('user_products', $key, [
+                'type'              => $type,
+                'single'            => true,
+                'show_in_rest'      => true,
+                'auth_callback'     => '__return_true',
+                'sanitize_callback' => null,
+            ]);
+        }
     }
 
 }
