@@ -26,8 +26,6 @@ final class Api
             )
         );
 
-        print_r($args);
-
         if($data && $method !== 'GET')
         {
             $args['body'] = json_encode($data);

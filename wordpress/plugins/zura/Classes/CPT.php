@@ -17,8 +17,6 @@ final class CPT{
             array(
                 'labels' => array(
                     'name' => __('User Products', 'textdomain'),
-                    // 'singlular_name' => __('User Product', 'textdomain'),
-                    // 'add_new_item' => __('Add New User Product', 'textdomain')
                 ),
                 'public' => true,
                 'has_archive' => true,
@@ -31,16 +29,12 @@ final class CPT{
 
         // meta we’ll upsert
         $metas = [
-            'external_id'   => 'string',
+            'external_id'   => 'integer',
+            'user_id'       => 'integer',
             'sku'           => 'string',
-            'price'         => 'number',
-            'discount'      => 'number',
-            'price_final'   => 'number',
-            'currency'      => 'string',
-            'stock'         => 'integer',
-            'categories'    => 'array',
-            'updated_at'    => 'string',
+            'image_url'     => 'string'
         ];
+
         foreach ($metas as $key => $type) {
             register_post_meta('user_products', $key, [
                 'type'              => $type,
