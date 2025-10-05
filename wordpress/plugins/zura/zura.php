@@ -14,9 +14,11 @@ define('PLUGIN_URL', plugin_dir_url(__FILE__));
 define('PLUGIN_PATH', plugin_dir_path(__FILE__));
 define('BASE_URL', get_option('api_base_url'));
 define('API_KEY', get_option('api_key'));
+define('USER_ID', get_option('zura_user_id'));
 
 require_once PLUGIN_PATH . 'Classes/Admin.php';
 require_once PLUGIN_PATH . 'Classes/CPT.php';
+require_once PLUGIN_PATH . 'Classes/UserRoute.php';
 
 class ZuraThaApp 
 {
@@ -25,6 +27,7 @@ class ZuraThaApp
     {
         (new Admin())->register();
         (new CPT())->register();
+        (new UserRoute())->register();
     }
 
 }
