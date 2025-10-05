@@ -122,9 +122,25 @@ final class Admin{
                             <p class="description">Enter the User ID of the user you want to sync products of.</p>
                         </td>
                     </tr>
+                    <tr>
+                        <th class="row">Last Sync:</th>
+                        <td>
+                            <?php
+                            $last_synced = get_option('zura_last_synced_at');
+
+                            if ($last_synced) {
+                                echo '<p>' . esc_html(mysql2date('F j, Y g:i a', $last_synced)) . '</p>';
+                            } else {
+                                echo '<p>Never synced yet.</p>';
+                            }
+                            ?>
+                        </td>
+                    </tr>
                 </table>
-                <?php submit_button('Save'); ?>
-                <?php submit_button('Sync'); ?>
+                <div style="display:flex; gap:10px; align-items:center;">
+                    <?php submit_button('Save', 'primary', 'submit', false); ?>
+                    <?php submit_button('Sync', 'secondary', 'submit', false); ?>
+                </div>
             </form>
         </div>
         <?php
